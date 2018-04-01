@@ -1,0 +1,213 @@
+4061  sudo apt install docker.io
+ 4063  docker ps -a 
+ 4064  sudo usermod -a -G docker $USER
+ 4065  docker ps -a 
+ 4072  docker info
+ 4076  # Create an environment variable for the correct distribution\nexport CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"\n\n# Add the Cloud SDK distribution URI as a package source\necho "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list\n\n# Import the Google Cloud Platform public key\ncurl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -\n\n# Update the package list and install the Cloud SDK\nsudo apt-get update && sudo apt-get install google-cloud-sdk
+ 4077  gcloud init
+ 4080  gcloud components install kubectl 
+ 4081  sudo apt install kubectl 
+ 4082  gcloud auth login
+ 4083  gcloud projects list 
+ 4084  gcloud compute zones list 
+ 4085  gcloud config set project ak-k8s-workshop
+ 4086  gcloud compute zones list 
+ 4087  gcloud auth login 
+ 4088  gcloud config set project ak-k8s-workshop
+ 4089  gcloud compute zones list 
+ 4090  gcloud projects list 
+ 4091  gcloud compute zones list 
+ 4092  gcloud projects create ak-k8s-workshop
+ 4093  gcloud projects create ak-k8s-workshop-h
+ 4094  gcloud compute zones list 
+ 4095  gcloud config set project ak-k8s-workshop-h
+ 4096  gcloud compute zones list 
+ 4097  gcloud auth login
+ 4098  gcloud compute zones list 
+ 4099  gcloud config set compute/zone europe-west2-a
+ 4105  touch Dockerfile
+ 4108  docker pull ubuntu:latest
+ 4109  emacs Dockerfile
+ 4144  docker build -t tinycli
+ 4146  docker build -t tinycli . 
+ 4147  docker run tinycli
+ 4148  docker ps 
+ 4149  docker ps  -a 
+ 4150  docker run tinycli
+ 4151  docker run tinycli https://www.google.co.uk
+ 4156  docker build -t tinycli . 
+ 4164  docker run tinycli https://www.google.co.uk -e ENV_ARGS "-i"
+ 4165  docker run tinycli https://www.google.co.uk
+ 4173  gcloud version 
+ 4174  gcloud container get-server-config 
+ 4175  gcloud container clusters create workshop03
+ 4177  kubectl cluster-info
+ 4178  kubectl version
+ 4179  kubectl get nodes 
+ 4182  gcloud container clusters resize --size=4 workshop03
+ 4185  kubectl top workshop03
+ 4186  kubectl top node
+ 4187  kubectl top pod
+ 4188  kubectl get --help
+ 4189  kubectl get all
+ 4190  kubectl explain --help
+ 4191  kubectl explain all
+ 4192  kubectl explain nodes 
+ 4196  emacs front-end.yaml
+ 4197  kubectl create --filename front-end.yaml
+ 4198  kubectl get pods 
+ 4199  kubectl get --watch pods 
+ 4200  kubectl describe pod front-end
+ 4205  kube get po 
+ 4206  kubectl get po 
+ 4207  kubectl get svc
+ 4208  kubectl delete -f 04_manifests/front-end.yaml
+ 4209  kube get po 
+ 4210  kubectl get po 
+ 4211  kubectl get po --watch 
+ 4212  kubectl get po
+ 4213  kubectl get namespace 
+ 4214  kubectl get ns
+ 4215  kubectl create ns demo
+ 4216  kubectl get ns 
+ 4222  kube ctl create -f pod.yaml
+ 4223  kubectl create -f pod.yaml
+ 4228  kubectl get po -n=demo
+ 4229  kubectl port-forward -n demo k8s-counter 8089:80
+ 4240* curl localhost 
+ 4241* curl localhost:8089
+ 4242  kubectl create ns sock-shop
+ 4243  kubectl run front-end --namespace=sock-shop --labels name=front-end --expose --image weaveworksdemos/front-end:0.3.12 --port 8079 --record
+ 4244  kubectl -n=sock-shop get deployments 
+ 4245  kubectl -n=sock-shop
+ 4246  kubectl -n=sock-shop rollout status deployment/front-end
+ 4247  kubectl -n=sock-shop get po -l name=front-end
+ 4248  kubectl -n=sock-shop port-forward front-end-74569c9c65-2b9qv 8079
+ 4252* kubectl set -n=sock-shop set image deployment/front-end '*=binocarlos/front-end:0.2.1'
+ 4253* kubectl -n=sock-shop set image deployment/front-end '*=binocarlos/front-end:0.2.1'
+ 4254* kubectl -n=sock-shop get po -w 
+ 4255  kubectl -n=sock-shop get po -l name=front-end
+ 4256  kubectl -n=sock-shop port-forward front-end-7bdd849f56-cv4bn 8079
+ 4257  kubectl -n=sock-shop rollout history deployment/front-end
+ 4258  kubectl -n=sock-shop rollout undo deployment/front-end
+ 4259  kubectl -n=sock-shop get po -l name=front-end
+ 4260  kubectl -n=sock-shop port-forward front-end-74569c9c65-zh4vt 8079
+ 4261  kubectl -n sock-shop scale deployment front-end --replicas 10
+ 4262  kubectl -n sock-shop get deployments -w 
+ 4263  emacs 5c-00-sock-shop-ns.yaml
+ 4264  kubectl create -f 5c-00-sock-shop-ns.yaml
+ 4274  kubectl -n sock-shop get deployments -w 
+ 4276  kubectl delete front-end
+ 4277  kubectl delete -n sock-shop front-end
+ 4278  kubectl  -n sock-shop  delete front-end
+ 4279  kubectl  -n sock-shop  delete --all
+ 4280  kubectl  -n sock-shop  delete  --help
+ 4281  kubectl  -n sock-shop  delete pod 
+ 4282  kubectl  -n sock-shop  delete pod --all
+ 4283  kubectl create -f  .
+ 4284  kubectl  -n sock-shop  get services 
+ 4285  kubectl  -n sock-shop  delete services --all
+ 4286  kubectl create -f  .
+ 4287  kubectl get svc
+ 4288  kubectl -n sock-shop get svc
+ 4293  kubectl create -f . --record 
+ 4294  kubectl get --all
+ 4295  kubectl get --all-namespaces 
+ 4296  kubectl get --all-namespaces  all
+ 4297  kubectl -n sock-shop get deploy -w 
+ 4298  kubectl -n sock-shop describe deployments 
+ 4299  kubectl -n sock-shop get svc
+ 4300  emacs front-end-dep.yaml
+ 4301  kubectl replace -f front-end-dep.yaml
+ 4302  kubectl -n sock-shop describe deploy front-end 
+ 4303  kubectl replace -f front-end-dep.yaml
+ 4304  kubectl -n sock-shop describe deploy front-end 
+ 4305  kubectl -n=sock-shop rollout history deployment/front-end
+ 4306  kubectl -n=sock-shop rollout undeo deployment/front-end
+ 4307  kubectl -n=sock-shop rollout undo deployment/front-end
+ 4329  kubectl -n=sock-shop create -f front-end-dep.experiment.yaml -r 
+ 4330  kubectl -n=sock-shop create -f front-end-dep.experiment.yaml --record 
+ 4331  kubectl -n sock-shop get deploy -w 
+ 4332  kubectl delete -f front-end-dep.experiment.yaml
+ 4334  kubectl create -f http-liveness.yaml
+ 4335  kubectl describe pod liveness-http
+ 4337  kubectl create -f readiness-app-deployment.yaml
+ 4338  kubectl expose deploy readiness-app --port=80 --target-port 8080
+ 4339  kubectl -n sock-shop get deploy -w 
+ 4341  kubectl get -all
+ 4342  kubectl get po
+ 4343  kubectl exec readiness-app-66dc7c9bf6-875tq  -c readiness -- wget http://localhost:8080/disable
+ 4344  kubectl get po
+ 4345  kubectl get po -w 
+ 4346* kubectl exec readiness-app-66dc7c9bf6-875tq  -c readiness -- wget http://localhost:8080/disable
+ 4347  kubectl get endpoints 
+ 4348* kubectl exec readiness-app-66dc7c9bf6-875tq  -c readiness -- wget http://localhost:8080/enable
+ 4349  kubectl get po -w 
+ 4350* kubectl exec readiness-app-66dc7c9bf6-875tq  -c readiness -- wget http://localhost:8080/break
+ 4351  kubectl -n sock-shop get po | grep carts-db
+ 4352  kubectl delete po carts-db-6f5b94f4fd-tjtrv 
+ 4353  kubectl delete po carts-db-6f5b94f4fd-tjtrv -n sock-shop
+ 4354  kubectl get po -w  -n sock-shop
+ 4355  export CLUSTER_NAME=workshop03
+ 4356  export CARTDB_DISK=${CLUSTER_NAME}-carts-db
+ 4357  gcloud container clusters list 
+ 4358  gcloud container clusters list  | grep works
+ 4360  export CLUSTER_ZONE="europe-west2-a"
+ 4361  gcloud compute disks create --size=10GB --zone=${CLUSTER_ZONE} ${CARTDB_DISK}
+ 4362  gcloud compute disks list | grep ${CARTDB_DISK}
+ 4369  kubectl create -f carts-db-pv.yaml
+ 4370  kubectl get persistentvolumes 
+ 4371  kubectl get pv 
+ 4373  kubectl create -f carts-db-pvc.yaml . 
+ 4374  kubectl create -f carts-db-pvc.yaml 
+ 4375  kubectl -n sock-shop get pv 
+ 4378  kubectl replace -f carts-db-dep.yaml
+ 4379  kubectl get po -w  -n sock-shop
+ 4380  kubectl -n sock-shop get po | grep carts-db
+ 4381  kubectl delete po carts-db-58664f7447-zxr7g -n sock-shop
+ 4382  kubectl get po -w  -n sock-shop
+ 4387  curl -O https://raw.githubusercontent.com/microservices-demo/catalogue/0.2.0/docker/catalogue-db/data/dump.sql
+ 4388  kubectl create configmap catalogue-db-dump-file --from-file=dump.sql -n sock-shop
+ 4389  kubectl create secret generic catalogue-db --from-literal=password=default_password -n sock-shop
+ 4391  kubectl edit deployment catalogue-db -n sock-shop
+ 4393  kubectl get po -w  -n sock-shop
+ 4394  kubectl proxy & 
+ 4395  kubectl cluster-info
+ 4397  kubectl logs -n sock-shop catalogue-84f775fd9-fj6dn -f 
+ 4407  ./helm init
+ 4408  ./helm install --name=blog stable/wordpress
+ 4409  ./helm install --name=blog --set rbac.create=true stable/wordpress
+ 4411  ./helm list
+ 4412  kubectl create serviceaccount --namespace kube-system default
+ 4413  kubectl create serviceaccount --namespace kube-system tiller
+ 4414  kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+ 4415  kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+ 4416  ./helm list
+ 4417  ./helm repo update
+ 4418  ./helm list
+ 4419  ./helm install --name=blog stable/wordpress
+ 4420  kubectl get svc --namespace default -w blog-wordpress
+ 4421  $(kubectl get secret --namespace default blog-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
+ 4422  ./helm upgrade blog stable/wordpress --set wordpressBlogName="A neat blog"
+ 4423  kubectl get svc --namespace default -w blog-wordpress
+ 4424  ./helm
+ 4425  ./helm status 
+ 4426  ./helm status  blog
+ 4427  ./helm delete blog
+ 4428  kubectl get --all
+ 4429  kubectl delete 
+ 4430  kubectl delete  --all 
+ 4431  kubectl delete  --all all
+ 4432  kubectl get  --all all
+ 4433  kubectl get  --all-namespaces=true
+ 4434  kubectl get  --all-namespaces=true all
+ 4435  kubectl delete  --all-namespaces --all all
+ 4436  kubectl delete --all namespaces
+ 4437  kubectl list-clusters 
+ 4438  kubectl list-cluster 
+ 4439  kubectl 
+ 4440  kubectl cluster-info
+ 4441  glcoud container clusters delete
+ 4442  gcloud container clusters delete
+ 4443  gcloud container clusters delete workshop03
+
