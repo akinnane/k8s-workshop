@@ -1,0 +1,364 @@
+ 9982  git clone https://github.com/akinnane/k8s-workshop
+ 9986  gcloud init 
+ 9987  brew install gcloud
+ 9991  tar xvzf google-cloud-sdk-196.0.0-darwin-x86_64.tar.gz
+ 9992  cd google-cloud-sdk
+ 9994  ./install.sh
+ 9996  glcoud 
+10002  gcloud  init
+10010  gcloud install kubectl 
+10011  gcloud components install kubectl 
+10012  gcloud auth login 
+10018  docker info 
+10019  docker build -t tinycli . 
+10020  docker ps -a 
+10021  docker version
+10022  gcloud auth application-default login
+10023  gcloud projects list
+10024  gcloud config set project 801457578200
+10025  gcloud config set project ak-k8s-workshop-h
+10027  gcloud config set compute/zone
+10029  gcloud components install alpha
+10030  gcloud components install kubectl
+10038  gcloud container clusters get-credentials
+10039  gcloud container clusters get-credentials --help
+10040  gcloud container clusters get-credentials k8s-workshop
+10044  gcloud container clusters --help
+10045  gcloud container clusters list
+10046  gcloud container clusters delete k8s-workshop
+10047  gcloud container clusters create \\n  --cluster-version=1.9.2-gke.1 \\n  --scopes https://www.googleapis.com/auth/devstorage.full_control \\n  k8s-workshop
+10048  gcloud container clusters create \\n  --cluster-version=1.9.6-gke.0 \\n  --scopes https://www.googleapis.com/auth/devstorage.full_control \\n  k8s-workshop
+10049  kubectl cluster-info
+10050  kubectl versinon
+10052  kubectl get nodes 
+10053  kubectl create clusterrolebinding user-admin --clusterrole=cluster-admin --user alex.kinnane@ft.com
+10075* unzip k8s.zip
+10082  emacs 00-sock-shop-ns.yaml
+10083  kubectl create -f 00-sock-shop-ns.yaml
+10084  mkdir services
+10085  cp ~/Downloads/2/attendee-resources/workshop-02a/services/* services
+10087  cd services
+10089  kubectl create -f . 
+10090  kubectl get svc 
+10091  cp -R ~/Downloads/2/attendee-resources/workshop-02a/deployments ..
+10093  cd deployments
+10095  kubectl create -f . --record 
+10096  kubectl -n sock-shop get deploy -w 
+10098  kubectl -n sock-shop get svc
+10099  kubectl -n sock-shop describe deployments 
+10101  mkdir 03 
+10102  cd 03
+10104  emacs front-end-hpa.yaml
+10105  kubectl create -f front-end-hpa.yaml
+10106  kubectl top pods -n sock-shopp
+10108  kubectl exec -itn sockshop front-end-7b87f9986f-zn2nw
+10109  kubectl exec -itn sock-shop front-end-7b87f9986f-zn2nw -- sh -c 'yes > /dev/null'
+10114* cd intermediate/03
+10117* kubectl get hpa -n sock-shop
+10118  gcloud beta container clusters update k8s-workshop --enable-autoscaling --min-nodes=3 
+10120  kubectl edit 
+10123  kubectl get svc
+10124  kubectl get svc -n sock-shop
+10125  kubectl -n sock-shop edit catalogue 
+10126  kubectl -n sock-shop edit container catalogue 
+10127  kubectl -n sock-shop edit container catalogue --help
+10128  kubectl -n sock-shop edit svc/catalogue
+10130  cp ../02/services/catalogue-svc.yaml .
+10131  emacs catalogue-svc.yaml
+10132  kubectl update -f catalogue-svc.yaml
+10133  kubectl create -f catalogue-svc.yaml
+10135  rm catalogue-svc.yaml
+10136  cp ../02/deployments/catalogue-dep.yaml . 
+10137  emcas catalogue-dep.yaml
+10138  emacs catalogue-dep.yaml
+10139  kubectl create -f catalogue-dep.yaml
+10143  kubectl get scv 
+10144  kubectl get scv -n sock-shop
+10145  kubectl -n sock-shop
+10146  kubectl -n sock-shop get svc 
+10151  kubectl -n sock-shop edit 
+10152  kubectl -n sock-shop edit catalogue-dep.yaml
+10155  kubectl -n sock-shop get pods 
+10157  kubectl -n sock-shop edit -f catalogue-dep.yaml
+10160  kubectl apply -f catalogue-dep.yaml
+10161* gcloud beta container clusters update k8s-workshop --no-enable-autoscaling --node-pool=default-pool
+10164  mkdir 04 
+10167  cp ../02/deployments/carts-dep.yaml .
+10169  kubectl scale deployments/carts --replicas=3 -n sock-shop
+10171* gcloud beta container clusters update k8s-workshop --zone europe-west2-a --node-locations=europe-west2-b,europe-west2-c
+10172  gcloud compute zones list
+10173* gcloud beta container clusters update k8s-workshop --zone europe-west2-c --node-locations=europe-west2-b,europe-west2-a
+10174* gcloud beta container clusters update k8s-workshop --zone europe-west2-c --node-locations=europe-west2-b,europe-west2-a,europe=west2-c
+10175* gcloud beta container clusters update k8s-workshop --zone europe-west2-c --node-locations=europe-west2-c,europe-west2-a,europe=west2-b
+10176* gcloud beta container clusters update k8s-workshop --zone europe-west2-c --node-locations=europe-west2-c,europe-west2-a,europe-west2-b
+10181* kubectl scale deployments/carts --replicas=1 -n sock-shop
+10182  kubectl get pods -n sock-shop -l name=carts -o wide 
+10183  gcloud beta 
+10184  gcloud beta --help
+10185  gcloud beta k8s
+10186  gcloud beta container clusters
+10187  gcloud beta container clusters resize 
+10188  gcloud beta container clusters resize  --size 1
+10189  gcloud beta container clusters resize  --size 1 k8s-workshop
+10190  gcloud beta container clusters resize  --size 2 k8s-workshop
+10192  gcloud beta container clusters update k8s-workshop --zone europe-west2-c --node-locations=europe-west2-c,europe-west2-a
+10193* kubectl get nodes -w 
+10194  kubectl get nodese --show-labels 
+10195  kubectl get nodes --show-labels 
+10198* cd 04
+10201* emacs carts-dep-affinity.yaml
+10202* kubectl apply -f carts-dep-affinity.yaml
+10203* gcloud beta container node-pools create high-spec --machine-type=n1-highcpu-2 --preemptible --num-nodes=1 --cluster k8s-workshop
+10205* kubectl taint nodes gke-k8s-workshop-high-spec-49ee6257-lgq9 gke-k8s-workshop-high-spec-c79ba42b-rd48 dedicated=highCpu:NoSchedule
+10206* kubectl label nodes gke-k8s-workshop-high-spec-49ee6257-lgq9 gke-k8s-workshop-high-spec-c79ba42b-rd48 dedicated=highCpu
+10208* kubectl apply -f pod-toleration.yaml
+10209* kubectl get pod -l name=my-example-pod -o wide 
+10210* gcloud beta container node-pools delete high-spec --cluster k8s-workshop
+10215  cp ~/Downloads/2/attendee-resources/workshop-05/nginx/namespace.yaml
+10216  cp ~/Downloads/2/attendee-resources/workshop-05/nginx/namespace.yaml . 
+10217  kubectl apply -f namespace.yaml
+10218  cp ~/Downloads/2/attendee-resources/workshop-05/nginx -R . 
+10219  cp -R ~/Downloads/2/attendee-resources/workshop-05/nginx  . 
+10221  rm namespace.yaml
+10223  cd nginx
+10225  kubectl apply -f default-deployment.yaml
+10226  kubectl apply -f default-service.yaml
+10227  kubectl apply -f configmap.yaml
+10228  kubectl apply -f service.yaml
+10231  kubectl clusterrolebinding nginx --clusterrole=cluster-admin --serviceaccount=nginx-ingress:default
+10232  kubectl apply clusterrolebinding nginx --clusterrole=cluster-admin --serviceaccount=nginx-ingress:default
+10233* kubectl version
+10234  kubectl apply clusterrolebinding nginx --serviceaccount=nginx-ingress:default
+10236  kubectl create clusterrolebinding nginx --clusterrole=cluster-admin --serviceaccount=nginx-ingress:default
+10237  kubectl describe svc nginx -n nginx-ingress
+10243  curl ak-k8s-sock-shop.in.ft.com
+10246  cp -R ~/Downloads/2/attendee-resources/workshop-05/ingress-frontend.yaml .
+10249  kubectl apply -n sock-shop -f ingress-frontend.yaml
+10250  cp -R ~/Downloads/2/attendee-resources/workshop-05/cert-manager . 
+10253  kubectl apply -f 00-namespace.yaml serviceaccount.yaml rbac.yaml deployment.yaml certificate-crd.yaml clusterissuer-crd.yaml issuer-crd.yaml
+10254  for i in 00-namespace.yaml serviceaccount.yaml rbac.yaml deployment.yaml certificate-crd.yaml clusterissuer-crd.yaml issuer-crd.yaml; do kubectl -f $i ; done 
+10255  for i in 00-namespace.yaml serviceaccount.yaml rbac.yaml deployment.yaml certificate-crd.yaml clusterissuer-crd.yaml issuer-crd.yaml; do kubectl apply -f $i ; done 
+10257  emacsa rbac.yaml
+10259  kubectl create clusterrolebinding nginx --clusterrole=cluster-admin --serviceaccount=cert-manager
+10260  kubectl create clusterrolebinding nginx --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
+10263  kubectl --help clusterrolebinding cert-manager --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
+10271  kubectl apply -f issuer-crd.yaml
+10272  kubectl apply -f 00-namespace.yaml
+10277  kubectl create serviceaccount -n kube-system tiller
+10278  kubectl create clusterrolebinding tiller-binding --clusterrole=cluster-admin --serviceaccount kube-system:tiller
+10279  helm init --service-account tiller
+10282  emacs my-cluster-issuer.yaml
+10287  kubectl logs cert-manager-pod --namespace=cert-manager -c ingress-shim
+10302  emacs serviceaccount.yaml
+10304  kubectl create clusterrolebinding cert-manager --clusterrole=cluster-admin --serviceaccoun=cert-manager:cert-manager
+10306  kubectl delete -f serviceaccount.yaml
+10308  kubectl delete clusterrolebinding cert-manager --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
+10316  kubectl delete -f deployment.yaml
+10319  kubectl --help
+10324  kubectl apply -f deployment.yaml
+10328  kubectl delete -f my-cluster-issuer.yaml
+10329  kubectl apply -f my-cluster-issuer.yaml
+10330  kubectl get pod  --namespace=cert-manager
+10332  cd cert-manager
+10335  kubectl get --all
+10337  kubectl get pods --all-namespaces=true
+10339  kubectl get dep
+10340  kubectl get deployments
+10341  kubectl get deployment
+10342  kubectl get pods --include-uninitialized
+10343  kubectl get pods --all-namespaces
+10345  kubectl get deployment my-dep 
+10346  kubectl get deployment --help
+10347  kubectl get deployment -f deployment.yaml
+10348  cat deployment.yaml
+10349  kubectl get deployment cert-manager
+10352  cat serviceaccount.yaml
+10353  kubectl get deployment -n cert-manager
+10355  kubectl get 
+10356  kubectl get ns
+10357  kubectl get roles 
+10358  kubectl get -n cert-manager roles 
+10359  kubectl get -n cert-manager rolebindings
+10360  kubectl get -n cert-manager roles
+10361  kubectl get -n cert-manager clusterroles
+10363  kubectl get -n cert-manager clusterrolesbinding
+10367  kubectl delete clusterrolebinding cert-manager
+10369  kubectl get -n cert-manager clusterrolebindings --help
+10370  kubectl get -n cert-manager clusterrolebindings -o w 
+10371  kubectl get -n cert-manager clusterrolebindings -w 
+10378  kubectl delete clusterrole cert-manager
+10380  kubectl delete -f rbac.yaml
+10381  kubectl apply -f serviceaccount.yaml
+10382  kubectl create clusterrolebinding cert-manager --clusterrole=cluster-admin --serviceaccount=cert-manager:cert-manager
+10384  kubectl get -n cert-manager clusterrolebindings
+10385  kubectl get pods --all-namespaces --include-uninitialized
+10386  kubectl logs cert-manager-776fdbccf8-75b4n --namespace=cert-manager -c ingress-shim
+10391  kubectl delete -f ingress-frontend.yaml
+10392  kubectl create -f ingress-frontend.yaml
+10393  kubectl logs cert-manager-776fdbccf8-z56cg  --namespace=cert-manager -c ingress-shim
+10394  kubectl logs cert-manager-776fdbccf8-z56cg  --namespace=cert-manager -c cert-manager
+10395  emacs ingress-frontend.yaml
+10396  brew install kubernetes-helm
+10397  helm init 
+10398  helm repo update
+10399  export RELEASE_NAME=mongodb
+10401  wget https://github.com/kubernetes/charts/blob/master/stable/mongodb-replicaset/values.yaml
+10403  rm values.yaml
+10405  mkdir 06
+10407  wget https://raw.githubusercontent.com/kubernetes/charts/master/stable/mongodb-replicaset/values.yaml
+10409  kubectl get pods --namespace=kube-system
+10410  helm version
+10412* kubectl get user
+10413* kubectl get users
+10414* kubectl get -n cert-manager clusterrolesbindings
+10415* kubectl get clusterrolesbindings
+10417* kubectl create clusterrolebinding --user system:serviceaccount:kube-system:default kube-system-cluster-admin --clusterrole cluster-admin
+10418  helm install --name $RELEASE_NAME -f values.yaml stable/mongodb-replicaset --namespace sock-shop
+10420  kubectl edit deployment carts 
+10421  kubectl edit deployment carts  -n sock-shop
+10423  cp ../04/carts-dep.yaml .
+10424  emacs carts-dep.yaml
+10425  kubectl apply carts-dep.yaml
+10426  kubectl apply -f carts-dep.yaml
+10427  kubectl get po,pvc,pv -n sock-shop
+10430  kubectl delete pod mongodb-mongodb-replicaset-0.mongodb-mongodb-replicaset.sock-shop.svc.cluster.local
+10432  kubectl delete pod mongodb-mongodb-replicaset
+10433  kubectl delete pod mongodb-mongodb-replicaset-0
+10435  kubectl -n sock-shop delete pod  mongodb-mongodb-replicaset-0
+10436  kubectl exec $RELEASE_NAME-mongodb-replicaset-1 -n sock-shop -- sh -c 'mongo --eval="printjson(rs.isMaster())"'
+10438  kubectl exec $RELEASE_NAME-mongodb-replicaset-1 -- sh -c 'mongo --eval="printjson(rs.status())"'
+10439  kubectl exec $RELEASE_NAME-mongodb-replicaset-0 -- sh -c 'mongo --eval="printjson(rs.status())"'
+10440  kubectl exec mongodb-replicaset-0 -- sh -c 'mongo --eval="printjson(rs.status())"'
+10441  kubectl -n sock-shop exec mongodb-replicaset-0 -- sh -c 'mongo --eval="printjson(rs.status())"'
+10442  kubectl -n sock-shop exec mongodb-replicaset-1 -- sh -c 'mongo --eval="printjson(rs.status())"'
+10443  kubectl -n sock-shop exec mongodb-mongodb-replicaset-1 -- sh -c 'mongo --eval="printjson(rs.status())"'
+10447  emacs values.yaml
+10448  helm upgrade $RELEASE_NAME -f values.yaml stable/mongodb-replicaset\n
+10449  kubectl get pod -n sock-shop
+10450  emacs pdb.yaml
+10451  kubectl get pod -n sock-shop --labels
+10452  kubectl get pod -n sock-shop --show-labels
+10454  kubectl apply -f pdb.yaml
+10455  kubectl get poddisruptionbudgets
+10456  helm install --name gitlab --set gitlabRootPassword=password stable/gitlab-ce
+10458  helm upgrade gitlab gitlab --set externalUrl=http://35.197.252.116 stable/gitlab-ce
+10459  helm upgrade gitlab --set externalUrl=http://35.197.252.116 stable/gitlab-ce
+10460  kubectl get --watch pods
+10462  kubectl get --watch svc gitlab-gitlab-ce
+10474  emacs gitlab-runner-register.yaml
+10475* kubectl apply -f https://git.io/kube-dashboard
+10483* kubectl logs gitlab-runner-register-dngpt 
+10484* kubectl delete -f gitlab-runner-register.yaml
+10487* kubectl apply -f gitlab-runner-register.yaml
+10488  kubectl get pods 
+10490  man kubectl get pods
+10491  kubectl get pods
+10492  kubectl get pods --help
+10494  kubectl logs gitlab-runner-register-rssmn
+10496  emacs gitlab-runner.yaml
+10497  kubectl apply -f gitlab-runner
+10498  kubectl apply -f gitlab-runner.yaml
+10502  mkdir 07
+10505  mkdir teset_project
+10506  cat ../06/pass
+10507  rm -rf teset_project
+10508  mkdir testproject
+10513  cd tmp
+10515  mkdir testproject 
+10516  cd test
+10520  echo hello > README.md
+10521  git init 
+10523  git commit -m 'initial'
+10524  git remote add origin http://35.197.252.116/a/testproject.git\ngit push -u origin --all\ngit push -u origin --tags\n
+10526  git add .gitlab-ci.yml
+10527  git commit -m 'add ci config'
+10529  docker pull gcr.io/<gcp-project-name>/basic-webserver:latest
+10531  git commit -m 'fix up project name'
+10533  docker pull gcr.io/testproject/basic-webserver:latest
+10535  git commit -m 'update project name'
+10537  cd -
+10544  cd github/k8s-workshop
+10550  emacs rbac.yaml
+10551  kubectl apply -f rbac.yaml
+10552  la
+10554  cd ~/tmp/
+10556  cd testproject
+10557  cp -R ~/Downloads/2/attendee-resources/workshop-07/* . 
+10559  git commit -m 'add files'
+10565* emacs docker-deploy.yaml
+10566* cp docker-deploy.yaml ~/tmp/testproject
+10568  mv docker-deploy.yaml manifest.yml
+10569  git add . 
+10570  git commit -m 'add mainfest'
+10574  git commit -m 'add auto deploy'
+10578  cat .gitlab-ci.yml
+10579  emacs .gitlab-ci.yml
+10581  git commit -m 'add extra stage'
+10582  git push 
+10585  ls -al 
+10586  git mv manifest.yml manifest.yaml
+10587  git add -py
+10589  git commit -m 'rename file'
+10590  git push
+10591* kubectl get svc --watch
+10593* mkdir 08
+10595* cp -R ~/Downloads/2/attendee-resources/workshop-08/monitoring-ns.yaml . 
+10597* mv monitoring-ns.yaml 08
+10600* kubectl apply -f attendee-resources/workshop-08/monitoring-ns.yaml\n
+10601* kubectl apply -f monitoring-ns.yaml\n
+10604* cp -R ~/Downloads/2/attendee-resources/workshop-08/*  . 
+10608* grant cluster-admin to your current identity
+10609* gcloud info | grep Account#
+10610* gcloud info | grep Account
+10611* kubectl create clusterrolebinding myname-cluster-admin-binding --clusterrole=cluster-admin --user=akinnane47@gmail.com
+10615* kubectl apply -f kube-state-metrics-dep.yaml\n
+10617* kubectl port-forward -n monitoring prometheus-569f4586d6-rr7fb 9090
+10619* kubectl get pods -n monitoring  --all
+10621* kubectl top pods -n sock-shop
+10622* kubectl top pods
+10625* cd 07
+10627* cd src
+10630* cd 06
+10632* helm 
+10633* helm list 
+10634* helm delete gitlab
+10635* cd .
+10640* kubectl apply -f node-directory-size-metrics-ds.yaml
+10641* kubectl apply -f kube-state-metrics-dep.yaml
+10643* kubectl delete -f prometheus-pvc.yaml
+10644* kubectl delete -f prometheus-permissions.yaml
+10645* kubectl delete -f prometheus.yaml
+10646* kubectl apply -f prometheus-pvc.yaml
+10647* kubectl apply -f prometheus-permissions.yaml
+10648* kubectl apply -f prometheus.yaml
+10650* kubectl describe pod prometheus-569f4586d6-767pd
+10651* kubectl get pods -n monitoring  --all-namespaces
+10653* kubectl log 
+10654* kubectl log  prometheus-569f4586d6-767pd
+10655* kubectl logs  prometheus-569f4586d6-767pd
+10656* kubectl -n monitoring logs  prometheus-569f4586d6-767pd
+10657* kubectl -n monitoring events  prometheus-569f4586d6-767pd
+10658* fkubectl -n monitoring event  prometheus-569f4586d6-767pd
+10659* fkubectl -n monitoring get events  prometheus-569f4586d6-767pd
+10661* kubectl describe_nodes
+10664* cat prometheus.yaml
+10665* kubectl -n monitoring get events  prometheus-569f4586d6-767pd
+10667* kubectl describe pods prometheus-569f4586d6-767pd
+10669* gcloud beta container clusters update k8s-workshop --enable-autoscaling --min-nodes=3  --max-nodes=7 --node-pool=default-pool
+10672* kubectl describe nodes 
+10674* kubectl get pods -n monitoring
+10676* kubectl get nodes
+10677* kubectl get pods -a 
+10679* kubectl port-forward -n monitoring prometheus-2303744757-9h5f4 9090
+10681* kubectl apply -f attendee-resources/workshop-08/grafana-pvc.yaml
+10683* kubectl apply -f grafana-pvc.yaml
+10684* kubectl apply -f grafana.yaml
+10685* kubectl get pods -n monitoring 
+10686* kubectl port-forward -n monitoring grafana-2018528311-hsmgq 3000
+10687* kubectl port-forward -n grafana-56b8c9b6b4-4kjhw 3000
+10688* kubectl port-forward -n monitoring grafana-56b8c9b6b4-4kjhw 3000
+10689  kubectl get pods -a
+10690  kubectl get pods -a -n monitoring 
+10691  kubectl -n monitoring describe pods prometheus-569f4586d6-767pd
+10692  kubectl -n monitoring get svc
+10693* kubectl port-forward -n monitoring prometheus-569f4586d6-767pd 9090
